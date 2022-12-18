@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevIO.Business", "src\DevIO.Business\DevIO.Business.csproj", "{D786C7D5-CFB4-4CA2-96B2-B67F2DD50A69}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevIO.Data", "src\DevIO.Data\DevIO.Data.csproj", "{7F88ED2F-4475-48DF-904B-054F04B31373}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D786C7D5-CFB4-4CA2-96B2-B67F2DD50A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D786C7D5-CFB4-4CA2-96B2-B67F2DD50A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D786C7D5-CFB4-4CA2-96B2-B67F2DD50A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D786C7D5-CFB4-4CA2-96B2-B67F2DD50A69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F88ED2F-4475-48DF-904B-054F04B31373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F88ED2F-4475-48DF-904B-054F04B31373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F88ED2F-4475-48DF-904B-054F04B31373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F88ED2F-4475-48DF-904B-054F04B31373}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
