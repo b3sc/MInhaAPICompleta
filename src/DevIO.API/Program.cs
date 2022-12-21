@@ -1,5 +1,6 @@
 using DevIO.API.Configuration;
 using DevIO.Data.Context;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,14 @@ builder.Services.AddDbContext<MeuDbContext>(options =>
 });
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    // suprimindo a forma de validação automática do model.state
+    options.SuppressModelStateInvalidFilter = true;
+
+});
+
 
 builder.Services.ResolveDependencies();
 
