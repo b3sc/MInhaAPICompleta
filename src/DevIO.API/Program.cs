@@ -19,6 +19,8 @@ builder.Services.AddDbContext<MeuDbContext>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddApiConfig();
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     // suprimindo a forma de validação automática do model.state
@@ -32,6 +34,10 @@ builder.Services.ResolveDependencies();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseApiConfig(app.Environment);
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
