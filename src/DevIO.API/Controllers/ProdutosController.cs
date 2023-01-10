@@ -23,6 +23,8 @@ namespace DevIO.API.Controllers
             _mapper = mapper;
         }
 
+        #region GET
+
         [HttpGet]
         public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
         {
@@ -38,6 +40,10 @@ namespace DevIO.API.Controllers
 
             return produtoViewModel;
         }
+
+        #endregion
+
+        #region POST
 
         [HttpPost]
         public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
@@ -73,7 +79,6 @@ namespace DevIO.API.Controllers
             return CustomResponse(produtoImagemViewModel);
         }
 
-
         //desabilita o limite do arquivo
         //[DisableRequestSizeLimit]
         // limita o tamanho do arquivo
@@ -84,7 +89,48 @@ namespace DevIO.API.Controllers
             return Ok(file);
         }
 
+        #endregion
 
+        #region PUT
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
+        {
+            if (id != produtoViewModel.Id)
+            {
+                NotificarErro("Ids informados não são iguais!");
+                return CustomResponse();
+            }
+
+            var produtoAtualizacao = await ObterProduto(id);
+            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            if (produtoViewModel.ImagemUpload != null)
+            {
+                var imagemNome = $"{Guid.NewGuid()}_{produtoViewModel.Imagem}";
+                if (!UploadArquivoWithBase64(produtoViewModel.ImagemUpload, imagemNome))
+                {
+                    return CustomResponse(ModelState);
+                }
+
+                produtoAtualizacao.Imagem = imagemNome;
+            }
+
+            produtoAtualizacao.Nome = produtoViewModel.Nome;
+            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+            produtoAtualizacao.Valor = produtoViewModel.Valor;
+            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+
+            return CustomResponse(produtoViewModel);
+        }
+        
+        #endregion
+
+        #region DELETE
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
@@ -98,6 +144,9 @@ namespace DevIO.API.Controllers
             return CustomResponse(produtoViewModel);
         }
 
+        #endregion
+
+        #region Methods private
 
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
@@ -159,10 +208,7 @@ namespace DevIO.API.Controllers
             return true;
         }
 
-
-
-
-
-
+        #endregion
+        
     }
 }
