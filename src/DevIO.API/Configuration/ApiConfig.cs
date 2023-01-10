@@ -1,9 +1,19 @@
-﻿namespace DevIO.API.Configuration
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace DevIO.API.Configuration
 {
     public static class ApiConfig
     {
         public static IServiceCollection AddApiConfig(this IServiceCollection services)
         {
+            services.AddControllers();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("Development",
@@ -13,6 +23,7 @@
                             .AllowAnyMethod()
                             .AllowAnyHeader());
             });
+
 
             return services;
         }
