@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DevIO.API.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace DevIO.API.ViewModels;
 
 
 //apenas para exemplificar uma solução para resolver a questão de upload das imagens
+
+//[ModelBinder(BinderType = typeof(JsonWithFilesFormDataModelBinder))]
+// retornar com o nome produto, basicamente um alias para ser utilizado como key
+[ModelBinder(typeof(JsonWithFilesFormDataModelBinder), Name = "produto")]
 public class ProdutoImagemViewModel
 {
     [Key]
