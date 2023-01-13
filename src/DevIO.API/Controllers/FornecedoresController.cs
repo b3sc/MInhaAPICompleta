@@ -2,10 +2,12 @@ using AutoMapper;
 using DevIO.API.ViewModels;
 using DevIO.Business.Intefaces;
 using DevIO.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.API.Controllers;
 
+//[Authorize]
 [Route("api/[controller]")]
 public class FornecedoresController : MainController
 {
