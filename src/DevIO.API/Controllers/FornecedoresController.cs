@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.API.Controllers;
 
-//[Authorize]
+[Authorize]
 [Route("api/[controller]")]
 public class FornecedoresController : MainController
 {
@@ -28,6 +28,7 @@ public class FornecedoresController : MainController
         _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
     {
