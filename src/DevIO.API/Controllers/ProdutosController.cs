@@ -18,7 +18,9 @@ namespace DevIO.API.Controllers
         public ProdutosController(INotificador notificador,
                                   IProdutoService produtoService,
                                   IProdutoRepository produtoRepository,
-                                  IMapper mapper) : base(notificador)
+                                  IMapper mapper,
+                                  IUser user) : base(notificador, user)
+
         {
             _produtoService = produtoService;
             _produtoRepository = produtoRepository;
@@ -129,7 +131,7 @@ namespace DevIO.API.Controllers
 
             return CustomResponse(produtoViewModel);
         }
-        
+
         #endregion
 
         #region DELETE
@@ -211,6 +213,6 @@ namespace DevIO.API.Controllers
         }
 
         #endregion
-        
+
     }
 }
