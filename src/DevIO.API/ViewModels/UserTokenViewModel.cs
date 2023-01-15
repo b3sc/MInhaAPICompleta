@@ -29,7 +29,7 @@ namespace DevIO.API.ViewModels
 
     }
 
-    public class UserViewModel
+    public class UserTokenViewModel
     {
         public string Id { get; set; }
         public string Email { get; set; }
@@ -40,7 +40,7 @@ namespace DevIO.API.ViewModels
     {
         public string AccessToken { get; set; }
         public double ExpiresIn { get; set; }
-        public UserViewModel User { get; set; }
+        public UserTokenViewModel User { get; set; }
     }
 
     public class ClaimViewModel

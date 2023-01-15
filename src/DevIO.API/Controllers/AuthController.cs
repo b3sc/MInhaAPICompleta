@@ -111,7 +111,7 @@ namespace DevIO.API.Controllers
             {
                 AccessToken = encondedToken,
                 ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
-                User = new UserViewModel
+                User = new UserTokenViewModel
                 {
                     Id = user.Id,
                     Email = user.Email,
