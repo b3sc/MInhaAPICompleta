@@ -21,7 +21,18 @@ namespace DevIO.API.Configuration
                         builder
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader());
+                            .AllowAnyHeader()
+                            .AllowCredentials());
+
+                // exemplo de como seria adicionar um CORS
+                options.AddPolicy("Production",
+                   builder =>
+                       builder
+                           .WithMethods("GET")
+                           .WithOrigins("https://desenvolvedor.io")
+                           .SetIsOriginAllowedToAllowWildcardSubdomains()
+                           .AllowAnyHeader());
+
             });
 
 
@@ -37,9 +48,15 @@ namespace DevIO.API.Configuration
             }
             else
             {
-                app.UseCors("Development"); // Usar apenas nas demos => Configuração Ideal: Production
+                app.UseCors("Production"); // Usar apenas nas demos => Configuração Ideal: Production
                 app.UseHsts();
             }
+
+            app.UseHttpsRedirection();
+
+            // Autenticacao e autorização (Identity)
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             return app;
 
