@@ -4,6 +4,7 @@ using System.Text;
 using DevIO.API.Extensions;
 using DevIO.API.ViewModels;
 using DevIO.Business.Intefaces;
+using k8s.KubeConfigModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -80,7 +81,7 @@ namespace DevIO.API.Controllers
 
         }
 
-        private async Task<string> GerarJwt(string email)
+        private async Task<LoginResponseViewModel> GerarJwt(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -99,7 +100,24 @@ namespace DevIO.API.Controllers
             });
 
             var encondedToken = tokenHandler.WriteToken(token);
-            return encondedToken;
+
+            return ResponseUserToken(user, encondedToken, identityClaims.Claims);
+
+        }
+
+        private LoginResponseViewModel ResponseUserToken(IdentityUser user, string encondedToken, IEnumerable<Claim> claims)
+        {
+            return new LoginResponseViewModel
+            {
+                AccessToken = encondedToken,
+                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
+                User = new UserViewModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Claims = claims.Select(c => new ClaimViewModel { Type = c.Type, Value = c.Value })
+                }
+            };
         }
 
         private async Task<ClaimsIdentity> AddClaims(IdentityUser user)
@@ -123,6 +141,7 @@ namespace DevIO.API.Controllers
 
             return new ClaimsIdentity(claims);
         }
+
 
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
