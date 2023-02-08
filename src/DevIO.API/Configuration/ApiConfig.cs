@@ -34,18 +34,17 @@ namespace DevIO.API.Configuration
                         builder
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowCredentials());
+                            .AllowAnyHeader());
 
-                // exemplo de como seria adicionar um CORS
+
                 options.AddPolicy("Production",
-                   builder =>
-                       builder
-                           .WithMethods("GET")
-                           .WithOrigins("https://desenvolvedor.io")
-                           .SetIsOriginAllowedToAllowWildcardSubdomains()
-                           .AllowAnyHeader());
-
+                    builder =>
+                        builder
+                            .WithMethods("GET")
+                            .WithOrigins("http://desenvolvedor.io")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                            .AllowAnyHeader());
             });
 
 
