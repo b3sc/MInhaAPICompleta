@@ -45,7 +45,11 @@ namespace DevIO.API.Configuration
 
         public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
+            /*
+             * usar para validar quem pode acessar a documentação do swagger
+             */
             //app.UseMiddleware<SwaggerAuthorizedMiddleware>();
+
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -92,8 +96,7 @@ namespace DevIO.API.Configuration
             return info;
         }
     }
-
-
+    
     public class SwaggerDefaultValues : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -131,5 +134,30 @@ namespace DevIO.API.Configuration
             }
         }
     }
+    
+    public class SwaggerAuthorizedMiddleware
+    {
+        private readonly RequestDelegate _next;
 
+        public SwaggerAuthorizedMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        /*
+         * caso o usuário não esteja autenticado retorna para o próximo middleaware
+         * pode ser utilizado com outra pagina de login para garantir quem pode ver ou não
+         */
+        public async Task Invoke(HttpContext context)
+        {
+            if (context.Request.Path.StartsWithSegments("/swagger")
+                && !context.User.Identity.IsAuthenticated)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+
+            await _next.Invoke(context);
+        }
+    }
 }
