@@ -1,6 +1,7 @@
 using DevIO.API.Configuration;
 using DevIO.Data.Context;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<MeuDbContext>(options =>
 {
@@ -26,6 +27,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddApiConfig();
 
+builder.Services.AddSwaggerConfig();
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     // suprimindo a forma de validação automática do model.state
@@ -38,10 +41,13 @@ builder.Services.ResolveDependencies();
 
 
 var app = builder.Build();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // *** Configurando o resquest dos serviços no pipeline ***
 
 app.UseApiConfig(app.Environment);
+app.UseSwaggerConfig(apiVersionDescriptionProvider);
+
 
 
 if (app.Environment.IsDevelopment())
