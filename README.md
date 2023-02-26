@@ -1,2 +1,3 @@
 # MInhaAPICompleta
- API criada junto com o curso --> DesenvolvedorIO
+ API criada seguindo curso DesenvolvedorIO
+😊
