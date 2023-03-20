@@ -145,7 +145,7 @@ namespace DevIO.API.Configuration
         }
 
         /*
-         * caso o usuário não esteja autenticado retorna para o próximo middleaware
+         * caso o usuário não esteja logado retorna para o próximo middleaware
          * pode ser utilizado com outra pagina de login para garantir quem pode ver ou não
          */
         public async Task Invoke(HttpContext context)

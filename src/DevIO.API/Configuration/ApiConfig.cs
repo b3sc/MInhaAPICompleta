@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevIO.API.Extensions;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.API.Configuration
 {
@@ -64,11 +67,13 @@ namespace DevIO.API.Configuration
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseHttpsRedirection();
 
             // Autenticacao e autorização (Identity)
             app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthorization();      
 
             return app;
 

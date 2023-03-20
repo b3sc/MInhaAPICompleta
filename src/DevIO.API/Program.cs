@@ -19,7 +19,6 @@ builder.Services.AddDbContext<MeuDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-
 // Extension Method de configuração do Identity
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 
@@ -28,6 +27,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApiConfig();
 
 builder.Services.AddSwaggerConfig();
+
+builder.Services.AddLogginConfig(builder.Configuration);
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -49,7 +50,6 @@ app.UseApiConfig(app.Environment);
 app.UseSwaggerConfig(apiVersionDescriptionProvider);
 
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -57,5 +57,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+
+app.UseLogginConfig();
 
 app.Run();
